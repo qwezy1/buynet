@@ -1,0 +1,74 @@
+@import '@fontsource/manrope/latin-400.css';
+@import '@fontsource/manrope/cyrillic-400.css';
+@import '@fontsource/manrope/latin-500.css';
+@import '@fontsource/manrope/cyrillic-500.css';
+@import '@fontsource/manrope/latin-600.css';
+@import '@fontsource/manrope/cyrillic-600.css';
+@import '@fontsource/manrope/latin-700.css';
+@import '@fontsource/manrope/cyrillic-700.css';
+@import '@fontsource/manrope/latin-800.css';
+@import '@fontsource/manrope/cyrillic-800.css';
+@import '@fontsource/unbounded/latin-500.css';
+@import '@fontsource/unbounded/cyrillic-500.css';
+@import '@fontsource/unbounded/latin-600.css';
+@import '@fontsource/unbounded/cyrillic-600.css';
+@import '@fontsource/unbounded/latin-700.css';
+@import '@fontsource/unbounded/cyrillic-700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 23% 96%;
+    --foreground: 25 12% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 25 12% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 12% 13%;
+    --primary: 168 60% 24%;
+    --primary-foreground: 45 30% 97%;
+    --secondary: 38 25% 90%;
+    --secondary-foreground: 25 12% 18%;
+    --muted: 40 18% 92%;
+    --muted-foreground: 30 8% 40%;
+    --accent: 36 85% 93%;
+    --accent-foreground: 30 65% 25%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 35 15% 86%;
+    --input: 35 15% 86%;
+    --ring: 168 60% 24%;
+    --radius: 0.875rem;
+    --sidebar-background: 40 23% 96%;
+    --sidebar-foreground: 25 12% 13%;
+    --sidebar-primary: 168 60% 24%;
+    --sidebar-primary-foreground: 45 30% 97%;
+    --sidebar-accent: 38 25% 90%;
+    --sidebar-accent-foreground: 25 12% 18%;
+    --sidebar-border: 35 15% 86%;
+    --sidebar-ring: 168 60% 24%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: 'Unbounded', 'Manrope', ui-sans-serif, sans-serif;
+  }
+  .price-text {
+    @apply font-display font-semibold tracking-tight;
+  }
+}

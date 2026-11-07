@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: buynet-db
+    environment:
+      POSTGRES_USER: buynet
+      POSTGRES_PASSWORD: buynet
+      POSTGRES_DB: buynet
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U buynet']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    ports:
+      - '5432:5432'
+
+  backend:
+    build: ./server
+    container_name: buynet-backend
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: buynet
+      DB_PASSWORD: buynet
+      DB_NAME: buynet
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      PORT: 3000
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '3000:3000'
+
+  frontend:
+    build: ./app
+    container_name: buynet-frontend
+    depends_on:
+      - backend
+    ports:
+      - '8080:80'
+
+volumes:
+  db-data:

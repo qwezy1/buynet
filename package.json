@@ -1,0 +1,10 @@
+{
+  "name": "buynet",
+  "private": true,
+  "version": "1.0.0",
+  "description": "BuyNet — сервис публикации и поиска объявлений (NestJS + PostgreSQL + React)",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "build": "npm --prefix server run build && npm --prefix app run build"
+  }
+}
