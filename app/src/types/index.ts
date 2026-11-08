@@ -2,6 +2,7 @@ export interface Category {
   id: number;
   slug: string;
   name: string;
+  count?: number;
 }
 
 export interface ListingAuthor {
@@ -17,6 +18,7 @@ export interface Listing {
   city: string;
   imageUrl: string | null;
   isActive: boolean;
+  views: number;
   createdAt: string;
   updatedAt: string;
   category: Category | null;
@@ -43,6 +45,7 @@ export interface AuthResponse {
 
 export interface ListingQuery {
   q?: string;
+  ids?: string;
   categoryId?: number;
   city?: string;
   minPrice?: number;

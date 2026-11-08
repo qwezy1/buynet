@@ -7,6 +7,11 @@ export class QueryListingsDto {
   @IsString()
   q?: string;
 
+  /** Выборка конкретных объявлений: "1,5,9" (для избранного и «недавних») */
+  @IsOptional()
+  @IsString()
+  ids?: string;
+
   @IsOptional()
   @Type(() => Number)
   @IsInt()

@@ -28,6 +28,16 @@ export class ListingsService {
       .where('listing.isActive = :active', { active: true });
 
     // LOWER(...) LIKE — переносимо между Postgres и SQLite (локальная разработка)
+    if (query.ids) {
+      const ids = query.ids
+        .split(',')
+        .map((s) => parseInt(s.trim(), 10))
+        .filter((n) => Number.isInteger(n) && n > 0);
+      if (ids.length === 0) {
+        return { items: [], total: 0, page: 1, pages: 1 };
+      }
+      qb.andWhere('listing.id IN (:...ids)', { ids });
+    }
     if (query.q) {
       qb.andWhere(
         '(LOWER(listing.title) LIKE :q OR LOWER(listing.description) LIKE :q)',
@@ -73,7 +83,14 @@ export class ListingsService {
     };
   }
 
+  /** Публичное открытие карточки: инкремент просмотров + выдача. */
   async findOne(id: number) {
+    await this.listings.increment({ id }, 'views', 1);
+    return this.getRaw(id);
+  }
+
+  /** Без инкремента просмотров — для служебных вызовов (create/update). */
+  private async getRaw(id: number) {
     const listing = await this.listings.findOne({ where: { id } });
     if (!listing) throw new NotFoundException('Объявление не найдено');
     return this.serialize(listing);
@@ -101,7 +118,7 @@ export class ListingsService {
         author: { id: userId } as any,
       }),
     );
-    return this.findOne(listing.id);
+    return this.getRaw(listing.id);
   }
 
   async update(userId: number, id: number, dto: UpdateListingDto) {
@@ -118,7 +135,7 @@ export class ListingsService {
     }
     Object.assign(listing, { ...dto, categoryId: undefined });
     await this.listings.save(listing);
-    return this.findOne(id);
+    return this.getRaw(id);
   }
 
   async remove(userId: number, id: number) {
@@ -144,6 +161,7 @@ export class ListingsService {
       city: l.city,
       imageUrl: l.imageUrl,
       isActive: l.isActive,
+      views: l.views,
       createdAt: l.createdAt,
       updatedAt: l.updatedAt,
       category: l.category

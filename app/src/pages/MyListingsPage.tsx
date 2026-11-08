@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, SquarePen, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   AlertDialog,
@@ -117,7 +117,14 @@ export default function MyListingsPage() {
                     <p className="price-text text-primary">{formatPrice(listing.price)}</p>
                   </div>
                 </Link>
-                <AlertDialog>
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to={`/edit/${listing.id}`} aria-label={`Изменить «${listing.title}»`}>
+                      <SquarePen className="h-4 w-4" aria-hidden="true" />
+                      <span className="sm:hidden">Изменить</span>
+                    </Link>
+                  </Button>
+                  <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="ghost" size="sm" aria-label={`Удалить «${listing.title}»`}>
                       <Trash2 className="h-4 w-4 text-destructive" aria-hidden="true" />
@@ -139,6 +146,7 @@ export default function MyListingsPage() {
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
+                </div>
               </div>
             ))}
           </div>

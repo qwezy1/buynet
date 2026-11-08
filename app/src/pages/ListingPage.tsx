@@ -1,24 +1,38 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
-import { ArrowLeft, Calendar, MapPin, User as UserIcon } from 'lucide-react';
+import { ArrowLeft, Calendar, Eye, MapPin, User as UserIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getListing } from '@/lib/api';
+import { ListingCard } from '@/components/ListingCard';
+import { getListing, searchListings } from '@/lib/api';
 import { formatDate, formatPrice } from '@/lib/format';
+import { recordView } from '@/hooks/use-recent';
 import type { Listing } from '@/types';
 
 export default function ListingPage() {
   const { id } = useParams<{ id: string }>();
   const [listing, setListing] = useState<Listing | null>(null);
+  const [similar, setSimilar] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
     setLoading(true);
+    setSimilar([]);
     getListing(Number(id))
-      .then(setListing)
+      .then((l) => {
+        setListing(l);
+        recordView(l.id);
+        if (l.category) {
+          searchListings({ categoryId: l.category.id, limit: 5 })
+            .then((res) =>
+              setSimilar(res.items.filter((x) => x.id !== l.id).slice(0, 4)),
+            )
+            .catch(() => setSimilar([]));
+        }
+      })
       .catch((err) => setError(err.message ?? 'Не удалось загрузить объявление'))
       .finally(() => setLoading(false));
   }, [id]);
@@ -93,6 +107,11 @@ export default function ListingPage() {
                 <dt className="sr-only">Дата публикации</dt>
                 <dd>{formatDate(listing.createdAt)}</dd>
               </div>
+              <div className="flex items-center gap-2">
+                <Eye className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                <dt className="sr-only">Просмотры</dt>
+                <dd>{listing.views} просмотров</dd>
+              </div>
               {listing.author && (
                 <div className="flex items-center gap-2">
                   <UserIcon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
@@ -110,6 +129,19 @@ export default function ListingPage() {
             </div>
           </div>
         </article>
+      )}
+
+      {!loading && similar.length > 0 && (
+        <section className="mt-10" aria-label="Похожие объявления">
+          <h2 className="font-display mb-4 text-xl font-semibold">
+            Похожие объявления
+          </h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {similar.map((item) => (
+              <ListingCard key={item.id} listing={item} />
+            ))}
+          </div>
+        </section>
       )}
     </div>
   );

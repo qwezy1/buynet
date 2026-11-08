@@ -4,6 +4,7 @@ import { buildTypeOrmOptions } from './database/database.config';
 import { AuthModule } from './auth/auth.module';
 import { ListingsModule } from './listings/listings.module';
 import { CategoriesModule } from './categories/categories.module';
+import { FavoritesModule } from './favorites/favorites.module';
 import { Public } from './auth/jwt-auth.guard';
 
 @Controller()
@@ -21,6 +22,7 @@ export class HealthController {
     AuthModule,
     ListingsModule,
     CategoriesModule,
+    FavoritesModule,
   ],
   controllers: [HealthController],
 })

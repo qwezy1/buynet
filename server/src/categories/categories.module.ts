@@ -14,8 +14,22 @@ export class CategoriesController {
   @Public()
   @Get()
   async findAll() {
-    const items = await this.categories.find({ order: { name: 'ASC' } });
-    return items.map((c) => ({ id: c.id, slug: c.slug, name: c.name }));
+    const rows = await this.categories
+      .createQueryBuilder('category')
+      .leftJoin('category.listings', 'listing')
+      .select('category.id', 'id')
+      .addSelect('category.slug', 'slug')
+      .addSelect('category.name', 'name')
+      .addSelect('COUNT(listing.id)', 'count')
+      .groupBy('category.id')
+      .orderBy('category.name', 'ASC')
+      .getRawMany();
+    return rows.map((r) => ({
+      id: r.id,
+      slug: r.slug,
+      name: r.name,
+      count: Number(r.count),
+    }));
   }
 }
 

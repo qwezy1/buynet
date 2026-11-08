@@ -118,8 +118,29 @@ export function deleteListing(id: number) {
   return apiFetch<{ ok: boolean }>(`/listings/${id}`, { method: 'DELETE' });
 }
 
+export function updateListing(id: number, payload: CreateListingPayload) {
+  return apiFetch<Listing>(`/listings/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+}
+
 // ---------- Categories ----------
 
 export function getCategories() {
   return apiFetch<Category[]>('/categories');
+}
+
+// ---------- Favorites ----------
+
+export function getFavoriteIds() {
+  return apiFetch<number[]>('/favorites');
+}
+
+export function addFavorite(listingId: number) {
+  return apiFetch<{ ok: boolean }>(`/favorites/${listingId}`, { method: 'POST' });
+}
+
+export function removeFavorite(listingId: number) {
+  return apiFetch<{ ok: boolean }>(`/favorites/${listingId}`, { method: 'DELETE' });
 }

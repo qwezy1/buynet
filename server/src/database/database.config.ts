@@ -2,6 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Listing } from '../entities/listing.entity';
 import { Category } from '../entities/category.entity';
+import { Favorite } from '../entities/favorite.entity';
 
 /**
  * Конфигурация БД через переменные окружения.
@@ -9,7 +10,7 @@ import { Category } from '../entities/category.entity';
  */
 export function buildTypeOrmOptions(): TypeOrmModuleOptions {
   const base = {
-    entities: [User, Listing, Category],
+    entities: [User, Listing, Category, Favorite],
     synchronize: true,
   };
 

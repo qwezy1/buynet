@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { ChevronLeft, ChevronRight, RotateCcw, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,8 +13,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ListingCard } from '@/components/ListingCard';
+import { CategoryTiles } from '@/components/CategoryTiles';
 import { getCategories, searchListings } from '@/lib/api';
-import type { Category, ListingQuery, SearchResult } from '@/types';
+import { formatPrice } from '@/lib/format';
+import { useRecent } from '@/hooks/use-recent';
+import type { Category, Listing, ListingQuery, SearchResult } from '@/types';
 
 const SORT_OPTIONS = [
   { value: 'newest', label: 'Сначала новые' },
@@ -27,8 +30,11 @@ export default function HomePage() {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [result, setResult] = useState<SearchResult | null>(null);
+  const [totalAll, setTotalAll] = useState<number | null>(null);
+  const [recentItems, setRecentItems] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const recentIds = useRecent();
 
   // Локальное состояние полей (синхронизируется с URL)
   const [q, setQ] = useState(searchParams.get('q') ?? '');
@@ -56,7 +62,27 @@ export default function HomePage() {
     getCategories()
       .then(setCategories)
       .catch(() => setCategories([]));
+    // Общий счётчик объявлений для статистики в шапке
+    searchListings({ limit: 1 })
+      .then((res) => setTotalAll(res.total))
+      .catch(() => setTotalAll(null));
   }, []);
+
+  // Недавно просмотренные
+  useEffect(() => {
+    if (recentIds.length === 0) {
+      setRecentItems([]);
+      return;
+    }
+    searchListings({ ids: recentIds.join(','), limit: 8 })
+      .then((res) => {
+        const byId = new Map(res.items.map((l) => [l.id, l]));
+        setRecentItems(
+          recentIds.map((rid) => byId.get(rid)).filter(Boolean) as Listing[],
+        );
+      })
+      .catch(() => setRecentItems([]));
+  }, [recentIds]);
 
   useEffect(() => {
     setLoading(true);
@@ -105,6 +131,11 @@ export default function HomePage() {
             BuyNet — удобная доска объявлений: электроника, транспорт, недвижимость,
             услуги и всё остальное.
           </p>
+          {totalAll !== null && (
+            <p className="mt-2 text-sm font-medium text-primary">
+              Сейчас на площадке: {totalAll} объявлений · {categories.length} категорий
+            </p>
+          )}
           <form
             onSubmit={applyFilters}
             className="mt-6 flex max-w-2xl flex-col gap-2 sm:flex-row"
@@ -148,6 +179,48 @@ export default function HomePage() {
             </Button>
           ))}
         </div>
+
+        {/* Плитки категорий */}
+        <CategoryTiles
+          categories={categories}
+          activeId={categoryId}
+          onSelect={(id) => patchParams({ categoryId: id, page: '1' })}
+        />
+
+        {/* Недавно просмотренные */}
+        {recentItems.length > 0 && (
+          <section aria-label="Вы недавно смотрели" className="mt-8">
+            <h2 className="font-display mb-3 text-lg font-semibold">
+              Вы недавно смотрели
+            </h2>
+            <div className="flex gap-3 overflow-x-auto pb-2">
+              {recentItems.map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/listing/${item.id}`}
+                  className="flex w-64 shrink-0 items-center gap-3 rounded-2xl border bg-card p-3 transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <div className="h-14 w-16 shrink-0 overflow-hidden rounded-lg bg-muted">
+                    {item.imageUrl && (
+                      <img
+                        src={item.imageUrl}
+                        alt=""
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold">{item.title}</p>
+                    <p className="price-text text-sm text-primary">
+                      {formatPrice(item.price)}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Фильтры */}
         <form

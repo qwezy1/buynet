@@ -36,6 +36,9 @@ export class Listing {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({ default: 0 })
+  views: number;
+
   @ManyToOne(() => Category, (category) => category.listings, { eager: true })
   @JoinColumn()
   category: Category;

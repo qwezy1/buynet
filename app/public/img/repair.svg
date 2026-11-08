@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <defs>
+    <linearGradient id="grepair" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(255,45%,88%)"/>
+      <stop offset="1" stop-color="hsl(255,42%,74%)"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#grepair)"/>
+  <circle cx="259" cy="98" r="150" fill="hsl(255,50%,70%)" opacity="0.45"/>
+  <circle cx="437" cy="304" r="110" fill="hsl(255,55%,64%)" opacity="0.3"/>
+  <circle cx="348" cy="201" r="60" fill="none" stroke="hsl(255,45%,96%)" stroke-width="2" opacity="0.7"/>
+  <g transform="translate(320,240) scale(6.5) translate(-12,-12)" fill="none" stroke="hsl(255,45%,97%)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14.7 6.3a4.5 4.5 0 0 0-6 5.6L3 17.6V21h3.4l5.7-5.7a4.5 4.5 0 0 0 5.6-6l-2.8 2.8-2.5-.7-.7-2.5 3-2.6Z"/>
+  </g>
+</svg>

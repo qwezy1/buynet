@@ -15,6 +15,7 @@
     "baseUrl": "./",
     "incremental": false,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "strictNullChecks": true,
     "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true

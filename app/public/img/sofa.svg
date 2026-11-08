@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <defs>
+    <linearGradient id="gsofa" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(46,45%,88%)"/>
+      <stop offset="1" stop-color="hsl(46,42%,74%)"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#gsofa)"/>
+  <circle cx="185" cy="94" r="150" fill="hsl(46,50%,70%)" opacity="0.45"/>
+  <circle cx="428" cy="302" r="110" fill="hsl(46,55%,64%)" opacity="0.3"/>
+  <circle cx="306.5" cy="198" r="60" fill="none" stroke="hsl(46,45%,96%)" stroke-width="2" opacity="0.7"/>
+  <g transform="translate(320,240) scale(6.5) translate(-12,-12)" fill="none" stroke="hsl(46,45%,97%)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M3 17v-4a2 2 0 0 1 4 0v1h10v-1a2 2 0 0 1 4 0v4"/><path d="M5 17v2M19 17v2M3 17h18"/>
+  </g>
+</svg>

@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router';
-import { LogOut, Plus, User as UserIcon } from 'lucide-react';
+import { Heart, LogOut, Plus, User as UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/use-auth';
+import { useFavorites } from '@/hooks/use-favorites';
 
 export function Logo() {
   return (
@@ -23,6 +24,7 @@ export function Logo() {
 
 export function SiteHeader() {
   const { user, isAuthenticated, logout } = useAuth();
+  const { ids: favorites } = useFavorites();
   const navigate = useNavigate();
 
   return (
@@ -30,6 +32,17 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
         <Logo />
         <nav className="flex items-center gap-2 sm:gap-3">
+          <Button variant="ghost" size="sm" asChild className="relative">
+            <Link to="/favorites" aria-label="Избранное">
+              <Heart className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Избранное</span>
+              {favorites.length > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                  {favorites.length}
+                </span>
+              )}
+            </Link>
+          </Button>
           {isAuthenticated ? (
             <>
               <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex">

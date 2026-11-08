@@ -4,8 +4,10 @@ import { SiteHeader } from '@/components/SiteHeader';
 import HomePage from '@/pages/HomePage';
 import ListingPage from '@/pages/ListingPage';
 import CreateListingPage from '@/pages/CreateListingPage';
+import EditListingPage from '@/pages/EditListingPage';
 import AuthPage from '@/pages/AuthPage';
 import MyListingsPage from '@/pages/MyListingsPage';
+import FavoritesPage from '@/pages/FavoritesPage';
 
 export default function App() {
   return (
@@ -16,8 +18,10 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/listing/:id" element={<ListingPage />} />
           <Route path="/create" element={<CreateListingPage />} />
+          <Route path="/edit/:id" element={<EditListingPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/my" element={<MyListingsPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
           <Route
             path="*"
             element={

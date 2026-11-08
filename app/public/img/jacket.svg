@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <defs>
+    <linearGradient id="gjacket" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(328,45%,88%)"/>
+      <stop offset="1" stop-color="hsl(328,42%,74%)"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#gjacket)"/>
+  <circle cx="142" cy="171" r="150" fill="hsl(328,50%,70%)" opacity="0.45"/>
+  <circle cx="502" cy="400" r="110" fill="hsl(328,55%,64%)" opacity="0.3"/>
+  <circle cx="322" cy="285.5" r="60" fill="none" stroke="hsl(328,45%,96%)" stroke-width="2" opacity="0.7"/>
+  <g transform="translate(320,240) scale(6.5) translate(-12,-12)" fill="none" stroke="hsl(328,45%,97%)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8.5 4 4 7l1.6 3L8 9v11h8V9l2.4 1L20 7l-4.5-3-1.7 2h-3.6L8.5 4Z"/>
+  </g>
+</svg>

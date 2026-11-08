@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <defs>
+    <linearGradient id="gaquarium" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(104,45%,88%)"/>
+      <stop offset="1" stop-color="hsl(104,42%,74%)"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#gaquarium)"/>
+  <circle cx="267" cy="209" r="150" fill="hsl(104,50%,70%)" opacity="0.45"/>
+  <circle cx="578" cy="419" r="110" fill="hsl(104,55%,64%)" opacity="0.3"/>
+  <circle cx="422.5" cy="314" r="60" fill="none" stroke="hsl(104,45%,96%)" stroke-width="2" opacity="0.7"/>
+  <g transform="translate(320,240) scale(6.5) translate(-12,-12)" fill="none" stroke="hsl(104,45%,97%)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="6" cy="9.5" r="1.7"/><circle cx="10.2" cy="6" r="1.7"/><circle cx="14.8" cy="6" r="1.7"/><circle cx="19" cy="9.5" r="1.7"/><path d="M12.6 11.5c-2.6 0-5.1 2.6-5.1 4.8 0 1.5 1.1 2.5 2.6 2.5 1 0 1.7-.5 2.5-.5s1.5.5 2.5.5c1.5 0 2.6-1 2.6-2.5 0-2.2-2.5-4.8-5.1-4.8Z"/>
+  </g>
+</svg>
